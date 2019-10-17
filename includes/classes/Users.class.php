@@ -15,12 +15,13 @@ class Users {
 
     // Check if user and password is a match
     public function getUser($username, $password) {
-        $sql = "SELECT id FROM userlogin WHERE username=$username AND password=$password";
+        $sql = "SELECT id FROM userlogin WHERE username='$username' AND password='$password'";
 
         $result = $this->db->query($sql);
 
         if ($result->num_rows > 0) {
-            return $result['id'];
+            // return $result['id'];
+            return true;
         } else {
             return false;
         }

@@ -11,11 +11,11 @@ if ($_POST['username'] != NULL && $_POST['password'] != NULL) {
 
 
     if ($userlogin->getUser($username, $password)) {
-        return array("status" => "ok", "message" => "Inloggning lyckad");
+        $response = array("status" => "ok", "message" => "Inloggning lyckad");
     } else {
-        return array("status" => "error", "message" => "Inloggning misslyckad");
+        $response = array("status" => "error", "message" => "Inloggning misslyckad");
     }
 }
 
-
+echo json_encode($response);
 ?>

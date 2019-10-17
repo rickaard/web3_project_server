@@ -17,13 +17,6 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 
 
-// if($request[0] != "courses"){ 
-// 	http_response_code(404);
-// 	exit();
-// }
-
-
-
 
 // Initialize new work objects
 $webpages = new Webpages();
@@ -32,16 +25,37 @@ $webpages = new Webpages();
 switch ($method) {
     case 'GET':
         // CODE FOR 'GET' METHOD
-        $response = $webpages->getAllWebpages();
+        if (isset($_GET['id'])) {
+            $response = $webpages->getSingleWebpage($_GET['id']);
+        } else {
+            $response = $webpages->getAllWebpages();
+        }
         break;
+
     case 'POST':
         // CODE FOR 'POST' METHOD
+        if ($webpages->addWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'])) {
+            $response = array("status" => "ok", "message" => "webpage added");
+        } else {
+            $response = array("status" => "error", "message" => "error adding webpage");
+        }
         break;
+
     case 'PUT':
         // CODE FOR 'PUT' METHOD
+        if ($webpages->editWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'], $_GET['id'])) {
+            $response = array("status" => "ok", "message" => "webpage added");
+        } else {
+            $response = array("status" => "error", "message" => "error adding webpage");
+        }
         break;
     case 'DELETE':
         // CODE FOR 'DELETE' METHOD
+        if ($webpages->deleteWebpage($_GET['id'])) {
+            $response = array("status" => "ok", "message" => "webpage deleted");
+        } else {
+            $response = array("status" => "ok", "message" => "error deleting webpage");
+        }
         break;
 }
 

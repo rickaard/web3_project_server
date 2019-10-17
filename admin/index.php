@@ -12,21 +12,14 @@ header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT');
 
 $method = $_SERVER['REQUEST_METHOD'];
-$request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+// $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
 $input = json_decode(file_get_contents('php://input'), true);
-
-
-
-// if($request[0] != "courses"){ 
-// 	http_response_code(404);
-// 	exit();
-// }
 
 
 
 
 // Initialize new work objects
-$work = new Users();
+$userlogin = new Users();
 
 // Check for what HTTP Verb is getting used
 switch ($method) {
@@ -36,6 +29,12 @@ switch ($method) {
         break;
     case 'POST':
         // CODE FOR 'POST' METHOD
+        if ($userlogin->getUser($input['username'], $input['password'])) {
+            $response = array("status" => "ok", "message" => "logged in", "id" => getUser($input['username'], $input['password']));
+        } else {
+            $response = array("status" => "error", "message" => "error, wrong username or password");
+        }
+
         break;
     case 'PUT':
         // CODE FOR 'PUT' METHOD
