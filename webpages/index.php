@@ -48,7 +48,6 @@ switch ($method) {
 
 
 
-
 // Display the response from every method in JSON format
 echo json_encode($response);
 ?>

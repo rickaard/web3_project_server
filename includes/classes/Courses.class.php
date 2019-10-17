@@ -20,22 +20,42 @@ class Courses {
 
     // Get single course
     public function getCourse($id) {
-
+        $sql = "SELECT * FROM courses WHERE id=$id";
+        $result = $this->db->query($sql);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
     // Add new course
     public function addCourse($schoolName, $courseName, $startDate, $endDate) {
 
+        $schoolName = $this->sanitizeString($schoolName);
+        $courseName = $this->sanitizeString($courseName);
+        $startDate = $this->sanitizeString($startDate);
+        $endDate = $this->sanitizeString($endDate);
+
+        $sql = "INSERT INTO courses (school_name, course_name, start_date, end_date) VALUES ('$schoolName', '$courseName', '$startDate', '$endDate')";
+        return $result = $this->db->query($sql);
+        
     }
 
     // Edit course
     public function editCourse($schoolName, $courseName, $startDate, $endDate, $id) {
+        $schoolName = $this->sanitizeString($schoolName);
+        $courseName = $this->sanitizeString($courseName);
+        $startDate = $this->sanitizeString($startDate);
+        $endDate = $this->sanitizeString($endDate);
+        $id = intval($id);
 
+        $sql = "UPDATE courses SET school_name='$schoolName', course_name='$courseName', start_date='$startDate', end_date='$endDate' WHERE id=$id";
+        return $result = $this->db->query($sql);
     }
 
     // Delete course
     public function deleteCourse($id) {
+        $id = intval($id);
 
+        $sql = "DELETE FROM courses WHERE id=$id";
+        return $result = $this->db->query($sql);
     }
 
     // Sanitize inputs

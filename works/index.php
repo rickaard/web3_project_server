@@ -13,20 +13,9 @@ header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// if (isset($_SERVER['PATH_INFO'])) {
-//     $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
-//     // $request = trim($_SERVER['PATH_INFO'], '/');
-// }
 
 // $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
 $input = json_decode(file_get_contents('php://input'), true);
-
-
-
-// if($request[0] != "courses"){ 
-// 	http_response_code(404);
-// 	exit();
-// }
 
 
 
@@ -39,19 +28,19 @@ $work = new Works();
 
 // Check for what HTTP Verb is getting used
 switch ($method) {
+
     case 'GET':
-
-        // if ($work->getAllWorks()) {
-        //     $response = array("message" => "hello");
-        // }
-
-        $response = $work->getAllWorks();
-
+        // CODE FOR 'GET' METHOD
+        if (isset($_GET['id'])) {
+            $response = $work->getSingleWork($_GET['id']);
+        } else {
+            $response = $work->getAllWorks();
+        }
         break;
 
     case 'POST':
         // CODE FOR 'POST' METHOD
-        if ($work->addWork($input['work_place'], $input['work_title'], $input['work_start_date'], $input['work_end_date'])) {
+        if ($work->addWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'])) {
             $response = array("status" => "ok", "message" => "work added");
         } else {
             $response = array("status" => "error", "message" => "error adding new work");
@@ -60,7 +49,7 @@ switch ($method) {
 
     case 'PUT':
         // CODE FOR 'PUT' METHOD
-        if ($work->editWork($input['work_place'], $input['work_title'], $input['work_start_date'], $input['work_end_date'], $input['work_id'])) {
+        if ($work->editWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'], $_GET['id'])) {
             $response = array("status" => "ok", "message" => "work updated");
         } else {
             $response = array("status" => "ok", "message" => "error updating work");
@@ -69,7 +58,7 @@ switch ($method) {
 
     case 'DELETE':
         // CODE FOR 'DELETE' METHOD
-        if ($work->deleteWork($request[1])) {
+        if ($work->deleteWork($_GET['id'])) {
             $response = array("status" => "ok", "message" => "work deleted");
         } else {
             $response = array("status" => "error", "message" => "error deleting work");

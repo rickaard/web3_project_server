@@ -16,16 +16,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 
-
-
-// if($request[0] != "courses"){ 
-// 	http_response_code(404);
-// 	exit();
-// }
-
-
-
-
 // Initialize new objects
 $course = new Courses();
 
@@ -34,16 +24,41 @@ $course = new Courses();
 switch ($method) {
     case 'GET':
         // CODE FOR 'GET' METHOD
-        $response = $course->getAllCourses();
+
+        if (isset($_GET['id'])) {
+            $response = $course->getCourse($_GET['id']);
+        } else {
+            $response = $course->getAllCourses();
+        }
         break;
+
     case 'POST':
         // CODE FOR 'POST' METHOD
+        if ($course->addCourse($input['school_name'], $input['course_name'], $input['start_date'], $input['end_date'])) {
+            $response = array("status" => "ok", "message" => "course added");
+        } else {
+            $response = array("status" => "error", "message" => "error adding course");
+        }
+
         break;
     case 'PUT':
         // CODE FOR 'PUT' METHOD
+
+        if ($course->editCourse($input['school_name'], $input['course_name'], $input['start_date'], $input['end_date'], $_GET['id'])) {
+            $response = array("status" => "ok", "message" => "course updated");
+        } else {
+            $response = array("status" => "erro", "message" => "error updating course");
+        }
+
         break;
+        
     case 'DELETE':
         // CODE FOR 'DELETE' METHOD
+        if ($course->deleteCourse($_GET['id'])) {
+            $response = array("status" => "ok", "message" => "course deleted");
+        } else {
+            $response = array("status" => "error", "message" => "error deleting message");
+        }
         break;
 }
 
