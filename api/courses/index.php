@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-include_once('../includes/config.php');
+include_once('../../includes/config.php');
 
 // Set the content-type to json
 header('Content-Type: application/json; charset=UTF-8');

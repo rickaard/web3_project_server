@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-include_once('../includes/config.php');
+include_once('../../includes/config.php');
 
 // Set the content-type to json
 header('Content-Type: application/json; charset=UTF-8');
@@ -12,6 +12,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT');
 
 $method = $_SERVER['REQUEST_METHOD'];
+
+
 // $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -19,42 +21,47 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 
 // Initialize new work objects
-$webpages = new Webpages();
+$work = new Works();
+
+
+
 
 // Check for what HTTP Verb is getting used
 switch ($method) {
+
     case 'GET':
         // CODE FOR 'GET' METHOD
         if (isset($_GET['id'])) {
-            $response = $webpages->getSingleWebpage($_GET['id']);
+            $response = $work->getSingleWork($_GET['id']);
         } else {
-            $response = $webpages->getAllWebpages();
+            $response = $work->getAllWorks();
         }
         break;
 
     case 'POST':
         // CODE FOR 'POST' METHOD
-        if ($webpages->addWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'])) {
-            $response = array("status" => "ok", "message" => "webpage added");
+        if ($work->addWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'])) {
+            $response = array("status" => "ok", "message" => "work added");
         } else {
-            $response = array("status" => "error", "message" => "error adding webpage");
+            $response = array("status" => "error", "message" => "error adding new work");
         }
         break;
 
     case 'PUT':
         // CODE FOR 'PUT' METHOD
-        if ($webpages->editWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'], $_GET['id'])) {
-            $response = array("status" => "ok", "message" => "webpage added");
+        if ($work->editWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'], $_GET['id'])) {
+            $response = array("status" => "ok", "message" => "work updated");
         } else {
-            $response = array("status" => "error", "message" => "error adding webpage");
+            $response = array("status" => "ok", "message" => "error updating work");
         }
         break;
+
     case 'DELETE':
         // CODE FOR 'DELETE' METHOD
-        if ($webpages->deleteWebpage($_GET['id'])) {
-            $response = array("status" => "ok", "message" => "webpage deleted");
+        if ($work->deleteWork($_GET['id'])) {
+            $response = array("status" => "ok", "message" => "work deleted");
         } else {
-            $response = array("status" => "ok", "message" => "error deleting webpage");
+            $response = array("status" => "error", "message" => "error deleting work");
         }
         break;
 }
