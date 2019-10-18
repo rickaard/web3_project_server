@@ -20,7 +20,6 @@ class Users {
         $result = $this->db->query($sql);
 
         if ($result->num_rows > 0) {
-            // return $result['id'];
             return true;
         } else {
             return false;

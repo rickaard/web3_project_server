@@ -13,11 +13,9 @@ if ($input['username'] != NULL && $input['password'] != NULL) {
 
     if ($userlogin->getUser($username, $password)) {
         $_SESSION['id'] = 'admin';
-        $response = array("status" => "ok", "message" => "Inloggning lyckad");
-        // header('Location: index.php');
-        // exit();
+        $response = array("status" => "ok", "message" => "Inloggning lyckad. Du skickas nu vidare till adminsidan");
     } else {
-        $response = array("status" => "error", "message" => "Inloggning misslyckad");
+        $response = array("status" => "error", "message" => "Inloggning misslyckad. Användarnamnet eller lösenordet är fel.");
     }
 }
 

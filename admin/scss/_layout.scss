@@ -1,0 +1,52 @@
+// Layout: contains all the CSS that handles the layout, such as the container and any grid systems.
+
+
+
+.container {
+    width: 100%;
+}
+
+header {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+    padding: 1em 2.4em;
+    @include box-shadow(0 3px 12px 0 rgba(0,0,0,0.05));
+
+    .logo-item_wrapper {
+        font-size: 2em;
+        font-weight: 740;
+    }
+    nav ul {
+        display: flex;
+        flex-direction: row;
+
+        li {
+            list-style-type: none;
+            margin: 0 12px;
+
+            a {
+                text-decoration: none;
+                &:hover {
+                    @include link-style--hover($underline: true)
+                }
+            }
+        }
+    }
+}
+
+
+.output_wrapper {
+    
+    h2 {
+        display: inline-block;
+        margin-right: 0.6em;
+    }
+    .show-btn {
+        font-size: 1.5em;
+        i:hover {
+            cursor: pointer;
+        }
+    }
+}

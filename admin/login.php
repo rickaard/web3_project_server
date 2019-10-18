@@ -31,6 +31,10 @@
             height: 100vh;
         }
 
+        .login-form_wrapper {
+            max-width: 300px;
+        }
+
         form {
             display: flex;
             flex-direction: column;
@@ -61,7 +65,12 @@
         }
 
 
-
+        .error-msg {
+            color: #f00;
+        }
+        .success-msg {
+            color: #1A8C1A;
+        }
 
 
 
@@ -87,9 +96,10 @@
                     <input type="submit" id="loginBtn" value="Logga in">
                 </div>
             </form>
+            <div id="login-msg"></div>
         </div>
 
     </div>
-    <script src="js/main.js"></script>
-</body>
-</html>
+
+
+<?php include_once('layout_includes/footer.php'); ?>

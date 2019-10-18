@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rickaard/web3_project_server.git"
+  },
+  "author": "Rickard Jonsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rickaard/web3_project_server/issues"
+  },
+  "homepage": "https://github.com/rickaard/web3_project_server#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5"
+  }
+}
