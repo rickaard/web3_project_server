@@ -6,6 +6,14 @@ const worksOutput = document.querySelector('#works-output');
 const webpageOutput = document.querySelector('#webpages-output');
 const outputContent = document.querySelector('.out-header_wrapper');
 const showBtns = document.querySelectorAll('.show-btn');
+const addModalBtn = document.querySelector('#course-add-modal');
+const addModalEl = document.querySelector('.add-modal');
+const addCourseForm = document.querySelector('#add-course-form');
+const closeModalBtns = document.querySelectorAll('.close');
+const editModalEl = document.querySelector('.edit-modal');
+const editCourseForm = document.querySelector('#edit-course-form');
+
+
 
 const loginURL = 'http://localhost/web3_project/server/admin/loginscript.php';
 const coursesURL = 'http://localhost/web3_project/server/api/courses/';
@@ -13,19 +21,7 @@ const worksURL = 'http://localhost/web3_project/server/api/works/';
 const webpagesURL = 'http://localhost/web3_project/server/api/webpages/';
 
 
-// Show output content
-if (showBtns !== null) {
-    showBtns.forEach(element => {
-        element.addEventListener('click', (event) => {
-            let content = element.parentElement.nextElementSibling;
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'block';
-            }
-        })
-    })
-}
+
 
 
 
@@ -82,7 +78,6 @@ function fetchCourses() {
     fetch(coursesURL)
     .then(resp => resp.json())
     .then(data => {
-        console.log('courses:', data);
         let courses = data.map((item, index) => {
             return `
             <tr>
@@ -91,20 +86,91 @@ function fetchCourses() {
                 <td>${item.start_date}</td>
                 <td>${item.end_date}</td>
                 <td class="course-delete"><button id="${item.id}" class="btn btn-small btn-warning" onClick="deleteCourse(${item.id})"><i class="fas fa-trash-alt"></i></button></td>
-                <td class="course-edit"><button class="btn btn-small btn-sucess" onClick="editModal('${item.school_name}', '${item.course_name}', '${item.start_date}', '${item.end_date}', ${item.id})"><i class="fas fa-edit"></i></button></td>
+                <td class="course-edit"><button class="btn btn-small btn-sucess" onClick="editCourseModal('${item.school_name}', '${item.course_name}', '${item.start_date}', '${item.end_date}', ${item.id})"><i class="fas fa-edit"></i></button></td>
             </tr>
             `
         }).join("");
-        coursesOutput.innerHTML = courses;
+        if (coursesOutput != null) {
+            coursesOutput.innerHTML = courses;
+        }
     })
     .catch(error => console.log(error));
 };
 // Add new course
+function addCourse(event) {
+    event.preventDefault();
+
+    let jsonStr = JSON.stringify({
+        "school_name": document.querySelector('#school_name').value,
+        "course_name": document.querySelector('#course_name').value,
+        "start_date": document.querySelector('#course_start_date').value,
+        "end_date": document.querySelector('#course_end_date').value
+    });
+
+    fetch(coursesURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonStr
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchCourses();
+        addCourseForm.reset();
+        addModalEl.style.display = 'none';
+    })
+}
+
+// Fill "edit course"-modal with current data
+function editCourseModal(school_name, course_name, start_date, end_date, id) {
+    document.querySelector('#edit_school_name').value = school_name;
+    document.querySelector('#edit_course_name').value = course_name;
+    document.querySelector('#edit_start_date').value = start_date;
+    document.querySelector('#edit_end_date').value = end_date;
+    document.querySelector('#edit_course_id').value = id;
+    editModalEl.style.display = 'block';
+}
 
 // Edit course
+function editCourse(event) {
+    event.preventDefault();
+
+    let id = document.querySelector('#edit_course_id').value;
+
+    let jsonStr = JSON.stringify({
+        "school_name": document.querySelector('#edit_school_name').value,
+        "course_name": document.querySelector('#edit_course_name').value,
+        "start_date": document.querySelector('#edit_start_date').value,
+        "end_date": document.querySelector('#edit_end_date').value
+    });
+
+    fetch(coursesURL+'?id='+id, {
+        method: 'PUT',
+        header: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonStr
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchCourses();
+        editModalEl.style.display = 'none';
+    })
+    .catch(error => console.log(error))
+}
 
 // Delete course
-
+function deleteCourse(id) {
+    fetch(coursesURL+'?id='+id, {
+        method: 'DELETE'
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchCourses();
+    })
+    .catch(error => console.log(error))
+};
 
 
 
@@ -119,7 +185,6 @@ function fetchWorks() {
     fetch(worksURL)
     .then(resp => resp.json())
     .then(data => {
-        console.log('works:', data);
         let works = data.map((item, index) => {
             return `
             <tr>
@@ -132,13 +197,16 @@ function fetchWorks() {
             </tr>
             `
         }).join("");
-        worksOutput.innerHTML = works;
+        if (worksOutput != null) {
+            worksOutput.innerHTML = works;
+        }
     })
     .catch(error => console.log(error))
 }
 // Add new work
 
 // Edit work
+
 
 // Delete work
 
@@ -155,7 +223,6 @@ function fetchWebpages() {
     fetch(webpagesURL)
     .then(resp => resp.json())
     .then(data => {
-        console.log('webpages:', data);
         let webpages = data.map((item, index) => {
             return `
              <div class="webpage-item">
@@ -185,7 +252,9 @@ function fetchWebpages() {
              </div>
             `
         }).join("");
-        webpageOutput.innerHTML = webpages;
+        if (webpageOutput != null) {
+            webpageOutput.innerHTML = webpages;
+        }
     })
     .catch(error => console.log(error))
 };
@@ -205,6 +274,55 @@ window.addEventListener('DOMContentLoaded', () => {
     fetchWebpages();
 });
 
+// Show output content
+if (showBtns !== null) {
+    showBtns.forEach(element => {
+        element.addEventListener('click', (event) => {
+            let content = element.parentElement.nextElementSibling;
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        })
+    })
+}
+
+// Eventlistener for login form
 if (loginForm != null) {
     loginForm.addEventListener('submit', loginUser)
 };
+
+// Eventlistener for the "open modal"-button
+if (addModalBtn != null) {
+    addModalBtn.addEventListener('click', () => {
+        addModalEl.style.display = 'block';
+    })
+}
+
+// Eventlistener for the close button inside the modal
+if (closeModalBtns != null) {
+    closeModalBtns.forEach(element => {
+        element.addEventListener('click', () => {
+            element.parentElement.parentElement.style.display = 'none';
+        })
+    })
+}
+
+// If press outside of modal -> set display to none
+window.onclick = function(event) {
+    if (event.target == addModalEl || event.target == editModalEl) {
+        addModalEl.style.display = "none";
+        editModalEl.style.display = "none";
+    }
+  }
+
+  // Event listener for add course form
+  if (addCourseForm != null) {
+    addCourseForm.addEventListener('submit', addCourse);
+  }
+  
+  // Event listener for edit course form
+  if (editCourseForm != null) {
+    editCourseForm.addEventListener('submit', editCourse);
+  }
