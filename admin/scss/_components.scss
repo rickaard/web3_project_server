@@ -1,1 +1,39 @@
 // Components: anything reusable such as buttons, navbars, cards etc.
+
+.btn-small {
+    border: none;
+    font-size: 1em;
+    background: transparent;
+    &:hover {
+        cursor: pointer;
+        @include transform(scale(1.15))
+    }
+}
+.btn-warning {
+    color: #f00;
+}
+.btn-sucess {
+    color: #00f;
+}
+
+
+
+.btn-link {
+    text-decoration: none;
+	display: inline-block;
+	font-weight: 600;
+	background-color: transparent;
+	border: 1px solid transparent;
+    padding: 0.175rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+    border-radius: .15rem;
+    color: #343a40;
+    border-color: #343a40;
+    
+    &:hover {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+    }
+}

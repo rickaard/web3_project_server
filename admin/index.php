@@ -26,8 +26,8 @@ include_once('layout_includes/header.php');
 
         <main>
 
-            <section class="courses_wrapper">
-                <div class="courses-header_wrapper output_wrapper">
+            <section class="courses_wrapper output_wrapper">
+                <div class="output-header_wrapper">
                     <h2>Kurser</h2><span class="show-btn"><i class="fas fa-sort-down"></i></span>
                 </div>
                 <div class="courses-items_wrapper">
@@ -50,8 +50,8 @@ include_once('layout_includes/header.php');
                 </div>
             </section>
 
-            <section class="works_wrapper">
-                <div class="works-header_wrapper output_wrapper">
+            <section class="works_wrapper output_wrapper">
+                <div class="output-header_wrapper">
                     <h2>Arbete</h2><span class="show-btn"><i class="fas fa-sort-down"></i></span>
                 </div>
                 <div class="works-items_wrapper">
@@ -75,8 +75,8 @@ include_once('layout_includes/header.php');
 
             </section>
 
-            <section class="webpages_wrapper">
-                <div class="webpages-header_wrapper output_wrapper">
+            <section class="webpages_wrapper output_wrapper">
+                <div class="output-header_wrapper">
                     <h2>Websidor</h2><span class="show-btn"><i class="fas fa-sort-down"></i></span>
                 </div>
                 <div class="webpages-items_wrapper">

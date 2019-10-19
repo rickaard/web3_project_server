@@ -38,15 +38,66 @@ header {
 
 
 .output_wrapper {
-    
-    h2 {
-        display: inline-block;
-        margin-right: 0.6em;
-    }
-    .show-btn {
-        font-size: 1.5em;
-        i:hover {
-            cursor: pointer;
+    margin: 40px auto;
+    border: 1px solid #000;
+    max-width: 75%;
+
+    .output-header_wrapper {
+        text-align: center;
+        border-bottom: 1px solid;
+        padding: 0.5em 0;
+        // margin-bottom: 0.8em;
+
+        h2 {
+            display: inline-block;
+            margin-right: 0.6em;
+        }
+        .show-btn {
+            font-size: 1.5em;
+            position: relative;
+            top: -4px;
+            i:hover {
+                cursor: pointer;
+            }
         }
     }
+}
+
+.courses-items_wrapper, .works-items_wrapper, .webpages-items_wrapper {
+    display: none;
+    padding: 0 1em;
+    margin-top: 0.8em;
+}
+
+
+table {
+    width: 100%;
+
+    thead {
+        font-weight: 600;
+    }
+}
+
+.webpage-item {
+    border-bottom: 1px solid #000;
+    padding: 1em 0;
+
+    img {
+        width: 100%;
+        max-width: 350px;
+    }
+    .webpage-info {
+        max-width: 400px;
+    }
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
 }
