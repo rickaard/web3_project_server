@@ -1,18 +1,32 @@
 "use strict";
 
 const loginForm = document.querySelector('#login-form');
+
 const coursesOutput = document.querySelector('#courses-output');
 const worksOutput = document.querySelector('#works-output');
 const webpageOutput = document.querySelector('#webpages-output');
 const outputContent = document.querySelector('.out-header_wrapper');
+
 const showBtns = document.querySelectorAll('.show-btn');
+const closeModalBtns = document.querySelectorAll('.close');
+
 const addModalBtn = document.querySelector('#course-add-modal');
 const addModalEl = document.querySelector('.add-modal');
 const addCourseForm = document.querySelector('#add-course-form');
-const closeModalBtns = document.querySelectorAll('.close');
 const editModalEl = document.querySelector('.edit-modal');
 const editCourseForm = document.querySelector('#edit-course-form');
 
+const addWorkModalBtn = document.querySelector('#work-add-modal');
+const addWorkModalEl = document.querySelector('.add-work_modal');
+const editWorkModalEl = document.querySelector('.edit-work_modal');
+const addWorkForm = document.querySelector('#add-works-form');
+const editWorkForm = document.querySelector('#edit-work-form');
+
+const addWebpageModalBtn = document.querySelector('#webpage-add-modal');
+const addWebpageModalEl = document.querySelector('.add-webpage_modal');
+const editWebpageModalEl = document.querySelector('.edit-webpage_modal');
+const addWebpageForm = document.querySelector('#add-webpages-form');
+const editWebpageForm = document.querySelector('#edit-webpages-form');
 
 
 const loginURL = 'http://localhost/web3_project/server/admin/loginscript.php';
@@ -204,12 +218,84 @@ function fetchWorks() {
     .catch(error => console.log(error))
 }
 // Add new work
+function addWork(event) {
+    event.preventDefault();
+    console.log('från add work');
+
+    let jsonStr = JSON.stringify({
+        "work_place": document.querySelector('#work_place').value,
+        "work_title": document.querySelector('#work_title').value,
+        "start_date": document.querySelector('#work_start_date').value,
+        "end_date": document.querySelector('#work_end_date').value
+    });
+
+    fetch(worksURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonStr
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchWorks();
+        addWorkForm.reset();
+        addWorkModalEl.style.display = 'none';
+    })
+    .catch(error => console.log(error))
+}
 
 // Edit work
+function editWorksModal(work_place, work_title, start_date, end_date, id) {
+    console.log('edit work modal');
+    document.querySelector('#edit_work_place').value = work_place;
+    document.querySelector('#edit_work_title').value = work_title;
+    document.querySelector('#edit_work_start_date').value = start_date;
+    document.querySelector('#edit_work_end_date').value = end_date;
+    document.querySelector('#edit_work_id').value = id;
+    editWorkModalEl.style.display = 'block';
+}
+
+function editWork(event) {
+    event.preventDefault();
+
+    let id = document.querySelector('#edit_work_id').value;
+
+    let jsonStr = JSON.stringify({
+        "work_place": document.querySelector('#edit_work_place').value,
+        "work_title": document.querySelector('#edit_work_title').value,
+        "start_date": document.querySelector('#edit_work_start_date').value,
+        "end_date": document.querySelector('#edit_work_end_date').value
+    });
+
+    fetch(worksURL+'?id='+id, {
+        method: 'PUT',
+        header: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonStr
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchWorks();
+        editWorkModalEl.style.display = 'none';
+    })
+    .catch(error => console.log(error))
+}
 
 
 // Delete work
-
+function deleteWorks(id) {
+    console.log('från delete work', id);
+    fetch(worksURL+'?id='+id, {
+        method: 'DELETE'
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchWorks();
+    })
+    .catch(error => console.log(error))
+};
 
 /* 
 -------------------------------------------------------------
@@ -235,17 +321,17 @@ function fetchWebpages() {
                             <p>${item.page_description}</p>
                         </div>
                         <div class="webpage_img">
-                            <img src="https://i.gyazo.com/c61ca0ba7932e49e89fa5071eddcb292.jpg" alt="Bild på hemsidan ${item.page_titel}">
+                            <img src="${(item.page_image != '') ? item.page_image : 'https://i.imgur.com/h2vX36m.jpg' }" alt="Bild på hemsidan ${item.page_titel}">
                         </div>
                     </div>
                     <div class="flex-row webpage-links">
                         <div class="webpage-links">
-                            <a href="${item.page_url}" class="btn btn-link">Live demo</a>
-                            <a href="${item.page_github}" class="btn btn-link">Github</a>
+                            <a href="${item.page_url}" class="btn btn-link" target="_blank">Live demo</a>
+                            <a href="${item.page_github}" class="btn btn-link" target="_blank">Github</a>
                         </div>
                         <div class="webpage-btn">
                             <button id="${item.id}" class="btn btn-small btn-warning" onClick="deleteWebages(${item.id})"><i class="fas fa-trash-alt"></i></button>
-                            <button class="btn btn-small btn-sucess" onClick="editWebpagessModal('${item.work_place}', '${item.work_title}', '${item.start_date}', '${item.end_date}', ${item.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-small btn-sucess" onClick="editWebpagessModal('${item.page_title}', '${item.page_description}', '${item.page_url}', '${item.page_github}', '${item.page_image}', ${item.id})"><i class="fas fa-edit"></i></button>
                         </div>
                     </div>
                 </div>
@@ -255,6 +341,68 @@ function fetchWebpages() {
         if (webpageOutput != null) {
             webpageOutput.innerHTML = webpages;
         }
+    })
+    .catch(error => console.log(error))
+};
+
+// Add new webpage
+function addWebpage(event) {
+    event.preventDefault();
+    console.log('add webpage');
+}
+
+// Fill and open edit modal
+function editWebpagessModal(page_title, page_description, page_url, github_url, page_image, page_id) {
+    console.log('edit webpages modal');
+
+    document.querySelector('#edit_webpage_title').value = page_title;
+    document.querySelector('#edit_webpage_description').value = page_description;
+    document.querySelector('#edit_webpage_url').value = page_url;
+    document.querySelector('#edit_github_url').value = github_url;
+    document.querySelector('#edit_webpage_image').value = page_image;
+    document.querySelector('#edit_webpage_id').value = page_id;
+
+    editWebpageModalEl.style.display = 'block';
+}
+
+// Edit webpage
+function editWebpage(event) {
+    event.preventDefault();
+
+    let id = document.querySelector('#edit_webpage_id').value;
+
+    let jsonStr = JSON.stringify({
+        "title": document.querySelector('#edit_webpage_title').value,
+        "page_url": document.querySelector('#edit_webpage_url').value,
+        "github_url": document.querySelector('#edit_github_url').value,
+        "description": document.querySelector('#edit_webpage_description').value,
+        "image": document.querySelector('#edit_webpage_image').value,
+    });
+
+    fetch(webpagesURL+'?id='+id, {
+        method: 'PUT',
+        header: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonStr
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchWebpages();
+        editWebpageModalEl.style.display = 'none';
+    })
+    .catch(error => console.log(error))
+}
+
+// Delete webpage
+function deleteWebages(id) {
+    console.log('delete webpages, id:',id);
+    fetch(webpagesURL+'?id='+id, {
+        method: 'DELETE'
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchWebpages();
     })
     .catch(error => console.log(error))
 };
@@ -299,6 +447,16 @@ if (addModalBtn != null) {
         addModalEl.style.display = 'block';
     })
 }
+if (addWorkModalBtn != null) {
+    addWorkModalBtn.addEventListener('click', () => {
+        addWorkModalEl.style.display = 'block';
+    })
+}
+if (addWebpageModalBtn != null) {
+    addWebpageModalBtn.addEventListener('click', () => {
+        addWebpageModalEl.style.display = 'block';
+    })
+}
 
 // Eventlistener for the close button inside the modal
 if (closeModalBtns != null) {
@@ -311,18 +469,35 @@ if (closeModalBtns != null) {
 
 // If press outside of modal -> set display to none
 window.onclick = function(event) {
-    if (event.target == addModalEl || event.target == editModalEl) {
+    if (event.target == addModalEl || event.target == editModalEl || event.target == addWorkModalEl || event.target == editWorkModalEl || event.target == addWebpageModalEl || event.target == editWebpageModalEl) {
         addModalEl.style.display = "none";
         editModalEl.style.display = "none";
+        addWorkModalEl.style.display = 'none';
+        editWorkModalEl.style.display = 'none';
+        addWebpageModalEl.style.display = 'none';
+        editWebpageModalEl.style.display = 'none';
     }
   }
 
-  // Event listener for add course form
+  // Event listener for add form
   if (addCourseForm != null) {
     addCourseForm.addEventListener('submit', addCourse);
   }
+  if (addWorkForm != null) {
+      addWorkForm.addEventListener('submit', addWork);
+  }
+  if (addWebpageForm != null) {
+      addWebpageForm.addEventListener('submit', addWebpage);
+  }
   
-  // Event listener for edit course form
+
+  // Event listener for edit  form
   if (editCourseForm != null) {
     editCourseForm.addEventListener('submit', editCourse);
+  }
+  if (editWorkForm != null) {
+      editWorkForm.addEventListener('submit', editWork);
+  }
+  if (editWebpageForm != null) {
+      editWebpageForm.addEventListener('submit', editWebpage);
   }
