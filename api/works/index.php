@@ -40,31 +40,49 @@ switch ($method) {
 
     case 'POST':
         // CODE FOR 'POST' METHOD
-        if ($work->addWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'])) {
-            $response = array("status" => "ok", "message" => "work added");
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
+        if (!$_SESSION['id']) {
+            http_response_code(401);
+            return;
         } else {
-            $response = array("status" => "error", "message" => "error adding new work");
+            if ($work->addWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'])) {
+                $response = array("status" => "ok", "message" => "work added");
+            } else {
+                $response = array("status" => "error", "message" => "error adding new work");
+            }
         }
         break;
 
     case 'PUT':
         // CODE FOR 'PUT' METHOD
-        if ($work->editWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'], $_GET['id'])) {
-            $response = array("status" => "ok", "message" => "work updated");
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
+        if (!$_SESSION['id']) {
+            http_response_code(401);
+            return;
         } else {
-            $response = array("status" => "ok", "message" => "error updating work");
+            if ($work->editWork($input['work_place'], $input['work_title'], $input['start_date'], $input['end_date'], $_GET['id'])) {
+                $response = array("status" => "ok", "message" => "work updated");
+            } else {
+                $response = array("status" => "ok", "message" => "error updating work");
+            }
         }
         break;
 
     case 'DELETE':
         // CODE FOR 'DELETE' METHOD
-        if ($work->deleteWork($_GET['id'])) {
-            $response = array("status" => "ok", "message" => "work deleted");
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
+        if (!$_SESSION['id']) {
+            http_response_code(401);
+            return;
         } else {
-            $response = array("status" => "error", "message" => "error deleting work");
+            if ($work->deleteWork($_GET['id'])) {
+                $response = array("status" => "ok", "message" => "work deleted");
+            } else {
+                $response = array("status" => "error", "message" => "error deleting work");
+            }
         }
         break;
-}
+};
 
 
 

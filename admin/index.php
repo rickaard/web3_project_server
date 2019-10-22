@@ -78,24 +78,24 @@ include_once('layout_includes/header.php');
                         <span class="close">&times;</span>
                         <form id="edit-course-form">
                             <div class="input_wrapper">
-                                <label for="school_name">Lärosäte:</label>
+                                <label for="edit_school_name">Lärosäte:</label>
                                 <input type="text" id="edit_school_name" placeholder="T.ex. Mittuniversitetet.." required>
                             </div>
                             <div class="input_wrapper">
-                                <label for="course_name">Kursnamn:</label>
+                                <label for="edit_course_name">Kursnamn:</label>
                                 <input type="text" id="edit_course_name" placeholder="T.ex. Webbutveckling I..." required>
                             </div>
                             <div class="input_wrapper">
-                                <label for="start_date">Startdatum:</label>
+                                <label for="edit_start_date">Startdatum:</label>
                                 <input type="text" id="edit_start_date" placeholder="ÅR/MÅNAD, t.ex. 2019/01" required>
                             </div>
                             <div class="input_wrapper">
-                                <label for="end_date">Slutdatum:</label>
+                                <label for="edit_end_date">Slutdatum:</label>
                                 <input type="text" id="edit_end_date" placeholder="ÅR/MÅNAD, t.ex. 2019/01" required>
                             </div>
                             <div class="input_wrapper">
                                 <input type="hidden" id="edit_course_id">
-                                <input type="submit" id="edit_submitBtn" class="btn btn-success" value="Redigera kurs">
+                                <input type="submit" id="course_edit_submitBtn" class="btn btn-success" value="Redigera kurs">
                                 
                             </div>
                         </form>
@@ -174,7 +174,7 @@ include_once('layout_includes/header.php');
                             </div>
                             <div class="input_wrapper">
                                 <input type="hidden" id="edit_work_id">
-                                <input type="submit" id="edit_submitBtn" class="btn btn-success" value="Redigera arbete">
+                                <input type="submit" id="work_edit_submitBtn" class="btn btn-success" value="Redigera arbete">
                                 
                             </div>
                         </form>
@@ -224,7 +224,7 @@ include_once('layout_includes/header.php');
                                 </div>
                                 <div class="input_wrapper">
                                     <label for="webpage_image">Bild på websidan/appen: Bild kan laddas upp <a href="https://imgur.com/upload?beta" target="_blank">HÄR</a></label>
-                                    <input type="text" id="github_url" placeholder="https://example.com/example.jpeg" required>
+                                    <input type="text" id="webpage_image" placeholder="https://example.com/example.jpeg" required>
                                 </div>
                                 <div class="input_wrapper">
                                     <input type="submit" id="webpage_submitBtn" class="btn btn-success" value="Lägg till hemsida">

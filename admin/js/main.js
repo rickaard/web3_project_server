@@ -2,6 +2,7 @@
 
 const loginForm = document.querySelector('#login-form');
 
+// Variables for the output containers
 const coursesOutput = document.querySelector('#courses-output');
 const worksOutput = document.querySelector('#works-output');
 const webpageOutput = document.querySelector('#webpages-output');
@@ -10,25 +11,28 @@ const outputContent = document.querySelector('.out-header_wrapper');
 const showBtns = document.querySelectorAll('.show-btn');
 const closeModalBtns = document.querySelectorAll('.close');
 
+// Various variables for the elements regarding the COURSES, e.g the "add new"-modal, "edit"-modal, and the various forms for it
 const addModalBtn = document.querySelector('#course-add-modal');
 const addModalEl = document.querySelector('.add-modal');
 const addCourseForm = document.querySelector('#add-course-form');
 const editModalEl = document.querySelector('.edit-modal');
 const editCourseForm = document.querySelector('#edit-course-form');
 
+// Various variables for the elements regarding the WORKS, e.g the "add new"-modal, "edit"-modal, and the various forms for it
 const addWorkModalBtn = document.querySelector('#work-add-modal');
 const addWorkModalEl = document.querySelector('.add-work_modal');
 const editWorkModalEl = document.querySelector('.edit-work_modal');
 const addWorkForm = document.querySelector('#add-works-form');
 const editWorkForm = document.querySelector('#edit-work-form');
 
+// Various variables for the elements regarding the WEBPAGES, e.g the "add new"-modal, "edit"-modal, and the various forms for it
 const addWebpageModalBtn = document.querySelector('#webpage-add-modal');
 const addWebpageModalEl = document.querySelector('.add-webpage_modal');
 const editWebpageModalEl = document.querySelector('.edit-webpage_modal');
 const addWebpageForm = document.querySelector('#add-webpages-form');
 const editWebpageForm = document.querySelector('#edit-webpages-form');
 
-
+// API endpoints
 const loginURL = 'http://localhost/web3_project/server/admin/loginscript.php';
 const coursesURL = 'http://localhost/web3_project/server/api/courses/';
 const worksURL = 'http://localhost/web3_project/server/api/works/';
@@ -51,6 +55,7 @@ function loginUser(event) {
         'password': document.querySelector('#password').value
     });
 
+    // Send POST request to API
     fetch(loginURL, {
         method: 'POST',
         headers: {
@@ -68,10 +73,7 @@ function loginUser(event) {
         } else {
             document.querySelector('#login-msg').classList.add('success-msg');
             document.querySelector('#login-msg').innerHTML = data.message;
-            // Wait 1 second to redirect to show the success message first
-            setTimeout(() => {
-                window.location.href = "../admin/index.php";
-            },1000)
+            window.location.href = "../admin/index.php";
         }
     })
     .catch(error => {console.log(error)})
@@ -114,6 +116,7 @@ function fetchCourses() {
 function addCourse(event) {
     event.preventDefault();
 
+    // Stringify the inputs
     let jsonStr = JSON.stringify({
         "school_name": document.querySelector('#school_name').value,
         "course_name": document.querySelector('#course_name').value,
@@ -121,6 +124,7 @@ function addCourse(event) {
         "end_date": document.querySelector('#course_end_date').value
     });
 
+    // Send POST request to API
     fetch(coursesURL, {
         method: 'POST',
         headers: {
@@ -130,13 +134,13 @@ function addCourse(event) {
     })
     .then(resp => resp.json())
     .then(data => {
-        fetchCourses();
-        addCourseForm.reset();
-        addModalEl.style.display = 'none';
+        fetchCourses(); // fetch the new data
+        addCourseForm.reset(); // reset/clear the form inputs
+        addModalEl.style.display = 'none'; // close the modal
     })
 }
 
-// Fill "edit course"-modal with current data
+// Fill "edit course"-modal with current data and open the modal
 function editCourseModal(school_name, course_name, start_date, end_date, id) {
     document.querySelector('#edit_school_name').value = school_name;
     document.querySelector('#edit_course_name').value = course_name;
@@ -159,6 +163,7 @@ function editCourse(event) {
         "end_date": document.querySelector('#edit_end_date').value
     });
 
+    // Send PUT request to API, to update the data
     fetch(coursesURL+'?id='+id, {
         method: 'PUT',
         header: {
@@ -168,20 +173,22 @@ function editCourse(event) {
     })
     .then(resp => resp.json())
     .then(data => {
-        fetchCourses();
-        editModalEl.style.display = 'none';
+        fetchCourses(); // fetch the new updated content
+        editModalEl.style.display = 'none'; // close modal when done
     })
     .catch(error => console.log(error))
 }
 
 // Delete course
 function deleteCourse(id) {
+
+    // Send DELETE request to API
     fetch(coursesURL+'?id='+id, {
         method: 'DELETE'
     })
     .then(resp => resp.json())
     .then(data => {
-        fetchCourses();
+        fetchCourses(); // fetch the new content after an item has been removed
     })
     .catch(error => console.log(error))
 };
@@ -220,7 +227,6 @@ function fetchWorks() {
 // Add new work
 function addWork(event) {
     event.preventDefault();
-    console.log('från add work');
 
     let jsonStr = JSON.stringify({
         "work_place": document.querySelector('#work_place').value,
@@ -247,7 +253,6 @@ function addWork(event) {
 
 // Edit work
 function editWorksModal(work_place, work_title, start_date, end_date, id) {
-    console.log('edit work modal');
     document.querySelector('#edit_work_place').value = work_place;
     document.querySelector('#edit_work_title').value = work_title;
     document.querySelector('#edit_work_start_date').value = start_date;
@@ -286,7 +291,6 @@ function editWork(event) {
 
 // Delete work
 function deleteWorks(id) {
-    console.log('från delete work', id);
     fetch(worksURL+'?id='+id, {
         method: 'DELETE'
     })
@@ -348,12 +352,32 @@ function fetchWebpages() {
 // Add new webpage
 function addWebpage(event) {
     event.preventDefault();
-    console.log('add webpage');
+
+    let jsonStr = JSON.stringify({
+        "title": document.querySelector('#webpage_title').value,
+        "page_url": document.querySelector('#webpage_url').value,
+        "github_url": document.querySelector('#github_url').value,
+        "description": document.querySelector('#webpage_description').value,
+        "image": document.querySelector('#webpage_image').value
+    });
+
+    fetch(webpagesURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonStr
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        fetchWebpages();
+        addWebpageForm.reset();
+        addWebpageModalEl.style.display = 'none';
+    })
 }
 
 // Fill and open edit modal
 function editWebpagessModal(page_title, page_description, page_url, github_url, page_image, page_id) {
-    console.log('edit webpages modal');
 
     document.querySelector('#edit_webpage_title').value = page_title;
     document.querySelector('#edit_webpage_description').value = page_description;
@@ -396,7 +420,6 @@ function editWebpage(event) {
 
 // Delete webpage
 function deleteWebages(id) {
-    console.log('delete webpages, id:',id);
     fetch(webpagesURL+'?id='+id, {
         method: 'DELETE'
     })
@@ -416,6 +439,7 @@ function deleteWebages(id) {
 -------------------------------------------------------------
 */
 
+// Call the fetch functions when DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
     fetchCourses();
     fetchWorks();
@@ -458,7 +482,7 @@ if (addWebpageModalBtn != null) {
     })
 }
 
-// Eventlistener for the close button inside the modal
+// Eventlistener for the close button inside the modals
 if (closeModalBtns != null) {
     closeModalBtns.forEach(element => {
         element.addEventListener('click', () => {

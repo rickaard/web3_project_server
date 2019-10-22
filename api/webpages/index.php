@@ -25,6 +25,7 @@ $webpages = new Webpages();
 switch ($method) {
     case 'GET':
         // CODE FOR 'GET' METHOD
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
         if (isset($_GET['id'])) {
             $response = $webpages->getSingleWebpage($_GET['id']);
         } else {
@@ -34,27 +35,46 @@ switch ($method) {
 
     case 'POST':
         // CODE FOR 'POST' METHOD
-        if ($webpages->addWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'])) {
-            $response = array("status" => "ok", "message" => "webpage added");
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
+        if (!$_SESSION['id']) {
+            http_response_code(401);
+            return;
         } else {
-            $response = array("status" => "error", "message" => "error adding webpage");
+            if ($webpages->addWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'])) {
+                $response = array("status" => "ok", "message" => "webpage added");
+            } else {
+                $response = array("status" => "error", "message" => "error adding webpage");
+            }
         }
         break;
 
     case 'PUT':
         // CODE FOR 'PUT' METHOD
-        if ($webpages->editWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'], $_GET['id'])) {
-            $response = array("status" => "ok", "message" => "webpage added");
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
+        if (!$_SESSION['id']) {
+            http_response_code(401);
+            return;
         } else {
-            $response = array("status" => "error", "message" => "error adding webpage");
+            if ($webpages->editWebpage($input['title'], $input['page_url'], $input['github_url'], $input['description'], $input['image'], $_GET['id'])) {
+                $response = array("status" => "ok", "message" => "webpage added");
+            } else {
+                $response = array("status" => "error", "message" => "error adding webpage");
+            }
         }
         break;
+
     case 'DELETE':
         // CODE FOR 'DELETE' METHOD
-        if ($webpages->deleteWebpage($_GET['id'])) {
-            $response = array("status" => "ok", "message" => "webpage deleted");
+        // Check if logged in, otherwise not allowed to use POST, PUT and DELETE requests
+        if (!$_SESSION['id']) {
+            http_response_code(401);
+            return;
         } else {
-            $response = array("status" => "ok", "message" => "error deleting webpage");
+            if ($webpages->deleteWebpage($_GET['id'])) {
+                $response = array("status" => "ok", "message" => "webpage deleted");
+            } else {
+                $response = array("status" => "ok", "message" => "error deleting webpage");
+            }
         }
         break;
 }

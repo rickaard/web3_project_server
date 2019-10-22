@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://kit.fontawesome.com/4ae3ee0e48.js"></script>
-    <title>Rickard</title>
+    <title>Rickard - admin</title>
 
 
 
