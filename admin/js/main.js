@@ -40,10 +40,6 @@ const webpagesURL = 'http://localhost/web3_project/server/api/webpages/';
 
 
 
-
-
-
-
 // POST LOGINFORM TO API
 function loginUser(event) {
     event.preventDefault();
