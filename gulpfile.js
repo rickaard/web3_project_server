@@ -27,22 +27,6 @@ function sassTask() {
 }
 
 
-// Funktion för att initiera browserSync och sedan lyssna på förändringar i /src-katalogen
-// function watchTask() {
-//     browserSync.init({
-//         server: {
-//             baseDir: 'build/'
-//         }
-//     });
-//     watch('admin/scss', sassTask);
-// }
-
-// exports.default = series(
-//     cleanTask,
-//     parallel(copyHTML,copyIMG, jsTask,sassTask),
-//     watchTask
-// );
-
 exports.default = function() {
     watch('admin/scss', sassTask)
 };
