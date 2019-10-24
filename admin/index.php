@@ -207,23 +207,23 @@ include_once('layout_includes/header.php');
                             <span class="close">&times;</span>
                             <form id="add-webpages-form">
                                 <div class="input_wrapper">
-                                    <label for="webpage_title">Titel:</label>
+                                    <label for="webpage_title">Titel: *</label>
                                     <input type="text" id="webpage_title" placeholder="Namn på websidan/appen.." required>
                                 </div>
                                 <div class="input_wrapper">
-                                    <label for="webpage_description">Beskrivning:</label>
+                                    <label for="webpage_description">Beskrivning: *</label>
                                     <input type="text" id="webpage_description" placeholder="Beskrivning av websidan/appen..." required>
                                 </div>
                                 <div class="input_wrapper">
-                                    <label for="webpage_url">URL till websidan:</label>
+                                    <label for="webpage_url">URL till websidan: *</label>
                                     <input type="text" id="webpage_url" placeholder="https://example.com" required>
                                 </div>
                                 <div class="input_wrapper">
                                     <label for="github_url">URL till Github-repo:</label>
-                                    <input type="text" id="github_url" placeholder="https://github.com/" required>
+                                    <input type="text" id="github_url" placeholder="https://github.com/">
                                 </div>
                                 <div class="input_wrapper">
-                                    <label for="webpage_image">Bild på websidan/appen: Bild kan laddas upp <a href="https://imgur.com/upload?beta" target="_blank">HÄR</a></label>
+                                    <label for="webpage_image">Bild på websidan/appen: Bild kan laddas upp <a href="https://imgur.com/upload?beta" target="_blank">HÄR *</a></label>
                                     <input type="text" id="webpage_image" placeholder="https://example.com/example.jpeg" required>
                                 </div>
                                 <div class="input_wrapper">
@@ -238,23 +238,23 @@ include_once('layout_includes/header.php');
                             <span class="close">&times;</span>
                             <form id="edit-webpages-form">
                                 <div class="input_wrapper">
-                                    <label for="edit_webpage_title">Titel:</label>
+                                    <label for="edit_webpage_title">Titel: *</label>
                                     <input type="text" id="edit_webpage_title" placeholder="Namn på websidan/appen.." required>
                                 </div>
                                 <div class="input_wrapper">
-                                    <label for="edit_webpage_description">Beskrivning:</label>
+                                    <label for="edit_webpage_description">Beskrivning: *</label>
                                     <input type="text" id="edit_webpage_description" placeholder="Beskrivning av websidan/appen..." required>
                                 </div>
                                 <div class="input_wrapper">
-                                    <label for="edit_webpage_url">URL till websidan:</label>
+                                    <label for="edit_webpage_url">URL till websidan: *</label>
                                     <input type="text" id="edit_webpage_url" placeholder="https://example.com" required>
                                 </div>
                                 <div class="input_wrapper">
                                     <label for="edit_github_url">URL till Github-repo:</label>
-                                    <input type="text" id="edit_github_url" placeholder="https://github.com/" required>
+                                    <input type="text" id="edit_github_url" placeholder="https://github.com/">
                                 </div>
                                 <div class="input_wrapper">
-                                    <label for="edit_webpage_image">Bild på websidan/appen: Bild kan laddas upp <a href="https://imgur.com/upload?beta" target="_blank">HÄR</a></label>
+                                    <label for="edit_webpage_image">Bild på websidan/appen: Bild kan laddas upp <a href="https://imgur.com/upload?beta" target="_blank">HÄR *</a></label>
                                     <input type="text" id="edit_webpage_image" placeholder="https://example.com/example.jpeg" required>
                                 </div>
                                 <div class="input_wrapper">

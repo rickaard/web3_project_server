@@ -11,6 +11,15 @@ header('Access-Control-Allow-Headers: Content-Type');
 // Allow the CRUD verbs POST, GET, DELETE, PUT
 header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT');
 
+
+
+
+header('Access-Control-Allow-Origin: *');
+
+
+
+
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 

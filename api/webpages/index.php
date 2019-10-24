@@ -11,6 +11,14 @@ header('Access-Control-Allow-Headers: Content-Type');
 // Allow the CRUD verbs POST, GET, DELETE, PUT
 header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT');
 
+
+
+header('Access-Control-Allow-Origin: *');
+
+
+
+
+
 $method = $_SERVER['REQUEST_METHOD'];
 // $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
 $input = json_decode(file_get_contents('php://input'), true);

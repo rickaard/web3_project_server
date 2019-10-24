@@ -331,7 +331,7 @@ function fetchWebpages() {
                     <div class="flex-row webpage-links">
                         <div class="webpage-links">
                             <a href="${item.page_url}" class="btn btn-link" target="_blank">Live demo</a>
-                            <a href="${item.page_github}" class="btn btn-link" target="_blank">Github</a>
+                            ${item.page_github != "" ? `<a href="${item.page_github}" class="btn btn-link" target="_blank">Github</a>` : ''}
                         </div>
                         <div class="webpage-btn">
                             <button id="${item.id}" class="btn btn-small btn-warning" onClick="deleteWebages(${item.id})"><i class="fas fa-trash-alt"></i></button>
