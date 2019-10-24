@@ -69,6 +69,12 @@ header {
     margin-top: 0.8em;
 }
 
+@media screen and (max-width: 800px) {
+    .courses-items_wrapper, .works-items_wrapper, .webpages-items_wrapper {
+        overflow-x: auto;
+    }
+}
+
 
 table {
     width: 100%;

@@ -27,15 +27,4 @@ class Users {
     }
 
 
-    // Sanitize inputs
-    public function sanitizeString($var) {
-        $var = strip_tags($var);
-        $var = htmlentities($var);
-    
-        if(get_magic_quotes_gpc()) {
-            $var = stripslashes($var);
-        }
-        return $this->db->real_escape_string($var);
-    }
-
 }
